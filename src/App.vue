@@ -1,27 +1,33 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class="app">{{ name }} is {{ age }}</div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import { defineComponent, ref, reactive } from 'vue';
+import axios from 'axios';
 
 export default defineComponent({
   name: 'App',
-  components: {
-    HelloWorld,
+  components: {},
+  setup() {
+    let person = reactive({});
+
+    const sendRequest = async () => {
+      try {
+        const { data } = await axios.get(
+          'https://api.themoviedb.org/3/person/138?api_key=b93ec93117c867f6525ea01e82adf2aa',
+        );
+        person = data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    sendRequest();
+
+    return {};
   },
 });
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
